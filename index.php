@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Plugin Name: Post Form Name
+ * Plugin Name: Ninja Forms - Post Form Name
  * Plugin URI: https://github.com/richjenks/wp-nf-post-form-name
  * Description: Adds the hidden field _form_name to all forms
  * Version: 1.0
