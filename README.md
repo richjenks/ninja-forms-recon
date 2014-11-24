@@ -1,3 +1,8 @@
-# Ninja Forms Awesome Fields
+# Ninja Forms Moar Data
 
-Add awesome hidden fields to your forms and collect more data!
+For when you need moar from your forms!
+
+- Google Campaign details
+- Geolocation data
+- Current URL, post/page title & form name
+- Operating System, Browser & Version
