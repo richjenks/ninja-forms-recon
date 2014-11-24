@@ -24,10 +24,10 @@ class Admin extends Plugin {
 		// Add submenu page
 		add_action( 'admin_menu', function() {
 			add_submenu_page(
-				'ninja-forms',            // Parent slug
-				'Recon',                  // Page title
-				'Recon',                  // Menu title
-				apply_filters(            // Capability
+				'ninja-forms',             // Parent slug
+				'Recon',                   // Page title
+				'Recon',                   // Menu title
+				apply_filters(             // Capability
 					'ninja_forms_admin_parent_menu_capabilities',
 					'manage_options'
 				),
