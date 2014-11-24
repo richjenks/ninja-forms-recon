@@ -6,6 +6,6 @@
  * Contains information for entire plugin
  */
 
-namespace RichJenks\NFMoarData;
+namespace RichJenks\NFRecon;
 
-class Plugin { protected $prefix = 'rj_nf_md_'; }
+class Plugin { protected $prefix = 'rj_nf_rc_'; }

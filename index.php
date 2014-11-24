@@ -1,16 +1,16 @@
 <?php
 
 /**
- * Plugin Name: Ninja Forms - Moar Data
+ * Plugin Name: Ninja Forms - Recon
  * Plugin URI: https://bitbucket.org/richjenks/nf-moar-data
- * Description: For when you need moar from your forms!
+ * Description: When you need to know more about your users, do some recon!
  * Version: 1.0
  * Author: Rich Jenks <rich@richjenks.com>
  * Author URI: http://richjenks.com
  * License: GPL2
  */
 
-namespace RichJenks\NFMoarData;
+namespace RichJenks\NFRecon;
 
 // Required files
 require_once 'inc/Plugin.php';

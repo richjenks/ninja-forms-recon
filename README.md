@@ -1,6 +1,6 @@
-# Ninja Forms Moar Data
+# Ninja Forms Recon
 
-For when you need moar from your forms!
+When you need to know more about your users, do some recon!
 
 - Google Campaign details
 - Geolocation data

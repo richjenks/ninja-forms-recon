@@ -6,7 +6,7 @@
  * Adds the admin page
  */
 
-namespace RichJenks\NFMoarData;
+namespace RichJenks\NFRecon;
 
 class Admin extends Plugin {
 
@@ -20,8 +20,8 @@ class Admin extends Plugin {
 		add_action( 'admin_menu', function() {
 			add_submenu_page(
 				'ninja-forms',            // Parent slug
-				'Moar Data',              // Page title
-				'Moar Data',              // Menu title
+				'Recon',                  // Page title
+				'Recon',                  // Menu title
 				apply_filters(            // Capability
 					'ninja_forms_admin_parent_menu_capabilities',
 					'manage_options'

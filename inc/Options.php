@@ -6,7 +6,7 @@
  * Interface for options storage
  */
 
-namespace RichJenks\NFMoarData;
+namespace RichJenks\NFRecon;
 
 class Options extends Plugin {
 
