@@ -13,10 +13,15 @@ class Admin extends Plugin {
 	/**
 	 * __construct
 	 *
-	 * Adds submenu page
+	 * Starts admin area magic
 	 */
 
 	public function __construct() {
+
+		// Add Settings link to plugin page
+		parent::add_settings_link();
+
+		// Add submenu page
 		add_action( 'admin_menu', function() {
 			add_submenu_page(
 				'ninja-forms',            // Parent slug
