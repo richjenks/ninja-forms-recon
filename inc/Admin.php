@@ -8,7 +8,7 @@
 
 namespace RichJenks\NFRecon;
 
-class Admin extends Plugin {
+class Admin extends Options {
 
 	/**
 	 * __construct
@@ -19,7 +19,7 @@ class Admin extends Plugin {
 	public function __construct() {
 
 		// Add Settings link to plugin page
-		parent::add_settings_link();
+		$this->add_settings_link();
 
 		// Add submenu page
 		add_action( 'admin_menu', function() {
@@ -36,6 +36,35 @@ class Admin extends Plugin {
 			);
 		}, 100 );
 
+		// Do options need saving?
+		if ( isset( $_POST[ $this->prefix . 'save' ] ) ) {
+
+			// Save options
+			// $this->set_options( $this->integrate_options( $_POST['fields'] ) );
+			$this->integrate_options( $_POST['fields'] );
+
+			// Show notice
+			add_action( 'admin_notices', function () { ?>
+				<div class="updated"><p>Settings Saved</p></div>
+			<?php } );
+
+		}
+
+
+	}
+
+	/**
+	 * add_settings_link
+	 *
+	 * Adds a settings link to plugin page for this plugin
+	 */
+
+	private function add_settings_link() {
+		$plugin = plugin_basename( dirname( dirname( __FILE__ ) ) . '/index.php' );
+		add_filter( 'plugin_action_links_' . $plugin , function ( $links ) {
+			$links[] = '<a href="'. get_admin_url( null, 'admin.php?page=rj_nf_rc_options' ) .'">Settings</a>';
+			return $links;
+		} );
 	}
 
 	/**
@@ -44,6 +73,9 @@ class Admin extends Plugin {
 	 * @return string HTML for submenu content
 	 */
 
-	public function content() { require 'AdminView.php'; }
+	public function content() {
+		$data = $this->get_options();
+		require 'AdminView.php';
+	}
 
 }
