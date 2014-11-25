@@ -40,8 +40,7 @@ class Admin extends Options {
 		if ( isset( $_POST[ $this->prefix . 'save' ] ) ) {
 
 			// Save options
-			// $this->set_options( $this->integrate_options( $_POST['fields'] ) );
-			$this->integrate_options( $_POST['fields'] );
+			$this->set_options( $this->integrate_options( $_POST['fields'] ) );
 
 			// Show notice
 			add_action( 'admin_notices', function () { ?>

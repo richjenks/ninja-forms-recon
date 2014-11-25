@@ -105,13 +105,23 @@ class Options extends Plugin {
 	 *
 	 * Assumes set value is true and unset is false — because checkboxes are weird.
 	 *
-	 * @param array $options Category options to be integrated into full options
+	 * @param array $post $_POST array
+	 * @param string $category Index of
 	 */
 
-	protected function integrate_options( $options ) {
-		var_dump( $_POST );
-		var_dump( $options );
-		var_dump( $this->options );
+	protected function integrate_options( $options = false ) {
+
+		// Get options category
+		$category = key( $options );
+
+		// Change values to bools
+		foreach ( $options[ $category ] as $option => $value ) {
+			$options[ $category ][ $option ] = (bool) $value;
+		}
+
+		// Return merged options
+		return array_merge( $this->get_options(), $options );
+
 	}
 
 }

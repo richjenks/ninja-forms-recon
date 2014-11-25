@@ -6,6 +6,8 @@
  * Options page HTML
  */
 
+namespace RichJenks\NFRecon;
+
 // Ensure current tab is valid — either matching tab or first tab
 if ( !isset( $_GET['tab'] ) || !array_key_exists( $_GET['tab'], $data ) )
 	$_GET['tab'] = key( $data );
@@ -45,12 +47,13 @@ if ( !isset( $_GET['tab'] ) || !array_key_exists( $_GET['tab'], $data ) )
 				<tr>
 					<th scope="row">
 						<label>
-							<input type="checkbox" name="<?= 'fields[' . $_GET['tab'] . '][' . $field . ']'; ?>" <?php if ( $enabled ) echo 'checked' ?>>
+							<input type="hidden" name="<?= 'fields[' . $_GET['tab'] . '][' . $field . ']'; ?>" value="0">
+							<input type="checkbox" name="<?= 'fields[' . $_GET['tab'] . '][' . $field . ']'; ?>" value="1" <?php if ( $enabled ) echo 'checked' ?>>
 							<?= $field; ?>
 						</label>
 					</th>
 					<td>
-						<input type="text" value="<?= 'recon_' . str_replace( ' ', '_', strtolower( $field ) ); ?>" readonly>
+						<input type="text" value="<?= Helper::field_name( $field, $this->pretty_prefix ); ?>" readonly>
 					</td>
 				</tr>
 			<?php endforeach; ?>
