@@ -37,9 +37,10 @@ class Options extends Plugin {
 		$defaults = array(
 
 			'Content' => array(
-				'Current URL' => false,
-				'Post Title'  => false,
-				'Form Name'   => false,
+				'Current URL'  => false,
+				'Previous URL' => false,
+				'Post Title'   => false,
+				'Form Name'    => false,
 			),
 
 			'User' => array(
@@ -76,10 +77,17 @@ class Options extends Plugin {
 		// Get current options as array
 		$options = json_decode( get_option( $this->prefix . 'options', '[]' ), true );
 
-		// Cache merged options
-		$this->options = array_replace_recursive( $defaults, $options );
+		// Merge options
+		$options = array_replace_recursive( $defaults, $options );
 
-		// Return options
+		// Remove options not in defaults (deprecated options)
+		foreach ( $options as $category => $fields )
+			foreach ($fields as $field => $value)
+				if ( !isset( $defaults[ $category ][ $field ] ) )
+					unset( $options[ $category ][ $field ] );
+
+		// Cache options before returning
+		$this->options = $options;
 		return $this->options;
 
 	}

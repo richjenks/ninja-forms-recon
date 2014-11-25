@@ -28,7 +28,7 @@ if ( !isset( $_GET['tab'] ) || !array_key_exists( $_GET['tab'], $data ) )
 <div class="wrap">
 
 	<h2>Recon</h2>
-	<p>When you need to know more about your users, do some recon!</p>
+	<p>When enabled, fields will be added to all forms.</p>
 	<p>The first column shows fields that can be added to forms and the second shows the <code>name</code> given to the field.</p>
 
 	<?php // Tabbed categories ?>
