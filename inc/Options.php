@@ -24,6 +24,10 @@ class Options extends Plugin {
 	 * get_options
 	 *
 	 * Retrieves options from cache (`$this->options`) or from database
+	 * Only allows fields that are in defaults but stored values will override defaults
+	 * Fields can be deprecated by removing from defaults
+	 *
+	 * Hits database twice on first run but caches options for later retrieval
 	 *
 	 * @return array Plugin options
 	 */
@@ -31,7 +35,7 @@ class Options extends Plugin {
 	protected function get_options() {
 
 		// Return cache?
-		// if ( isset( $this->options ) ) return $this->options;
+		if ( isset( $this->options ) ) return $this->options;
 
 		// Construct default options
 		$defaults = array(
@@ -81,10 +85,17 @@ class Options extends Plugin {
 		$options = array_replace_recursive( $defaults, $options );
 
 		// Remove options not in defaults (deprecated options)
-		foreach ( $options as $category => $fields )
-			foreach ($fields as $field => $value)
-				if ( !isset( $defaults[ $category ][ $field ] ) )
+		foreach ( $options as $category => $fields ) {
+			foreach ($fields as $field => $value) {
+				if ( !isset( $defaults[ $category ][ $field ] ) ) {
 					unset( $options[ $category ][ $field ] );
+				}
+			}
+		}
+
+		// Send options back to database so don't need to save to deprecate options
+		// Otherwide, fields would continue to show in forms until options were saved
+		$this->set_options( $options );
 
 		// Cache options before returning
 		$this->options = $options;
