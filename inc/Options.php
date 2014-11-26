@@ -23,19 +23,14 @@ class Options extends Plugin {
 	/**
 	 * get_options
 	 *
-	 * Retrieves options from cache (`$this->options`) or from database
 	 * Only allows fields that are in defaults but stored values will override defaults
 	 * Fields can be deprecated by removing from defaults
-	 *
 	 * Hits database twice on first run but caches options for later retrieval
 	 *
 	 * @return array Plugin options
 	 */
 
 	protected function get_options() {
-
-		// Return cache?
-		if ( isset( $this->options ) ) return $this->options;
 
 		// Construct default options
 		$defaults = array(
