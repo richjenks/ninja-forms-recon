@@ -19,5 +19,5 @@ require_once 'inc/Options.php';
 require_once 'inc/Admin.php';
 require_once 'inc/Fields.php';
 
-// Add admin page if back-end
-if ( is_admin() ) new Admin;
+if ( is_admin() )  new Admin;
+if ( !is_admin() ) new Fields;

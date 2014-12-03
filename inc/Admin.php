@@ -32,7 +32,7 @@ class Admin extends Options {
 					'manage_options'
 				),
 				$this->prefix . 'options', // Submenu slug
-				array( $this, 'content' )  // Callback
+				array( $this, 'options_content' )  // Callback
 			);
 		}, 100 );
 
@@ -47,6 +47,11 @@ class Admin extends Options {
 				<div class="updated"><p>Settings Saved</p></div>
 			<?php } );
 
+		}
+
+		// Are we editing a single submission?
+		if ( isset( $_GET['post'] ) && get_post_type( $_GET['post'] ) === 'nf_sub' ) {
+			$this->submission_content( $_GET['post'] );
 		}
 
 
@@ -67,14 +72,34 @@ class Admin extends Options {
 	}
 
 	/**
-	 * content
+	 * options_content
 	 *
 	 * @return string HTML for submenu content
 	 */
 
-	public function content() {
+	public function options_content() {
 		$data = $this->get_options();
 		require 'AdminView.php';
+	}
+
+	/**
+	 * submission_content
+	 *
+	 * @param int $post Post ID
+	 * @return string HTML for submission data content
+	 */
+
+	public function submission_content( $post ) {
+		$data = get_post_meta( $_GET['post'], $this->pretty_prefix . 'data', true );
+		if ( !empty( $data ) ) {
+			$data = json_decode( $data, true );
+			add_action( 'add_meta_boxes_nf_sub', function () use ( $data ) {
+				\add_meta_box( $this->pretty_prefix . 'meta_box', 'Recon', function () use ( $data ) {
+					require 'SubView.php';
+				}, 'nf_sub' );
+			} );
+
+		}
 	}
 
 }

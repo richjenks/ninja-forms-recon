@@ -53,7 +53,7 @@ if ( !isset( $_GET['tab'] ) || !array_key_exists( $_GET['tab'], $data ) )
 						</label>
 					</th>
 					<td>
-						<input type="text" value="<?= Helper::field_name( $field, $this->pretty_prefix ); ?>" readonly>
+						<input type="text" value="Recon[<?= $_GET['tab']; ?>][<?= $field; ?>]" readonly>
 					</td>
 				</tr>
 			<?php endforeach; ?>

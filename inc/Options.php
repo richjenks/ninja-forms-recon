@@ -43,6 +43,7 @@ class Options extends Plugin {
 			),
 
 			'User' => array(
+				'User Agent'       => false,
 				'IP Address'       => false,
 				'Operating System' => false,
 				'Browser'          => false,
