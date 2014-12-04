@@ -12,8 +12,9 @@
 
 namespace RichJenks\NFRecon;
 
-require_once 'inc/Helper.php';
 require_once 'inc/Plugin.php';
+require_once 'inc/Helper.php';
+require_once 'inc/Value.php';
 
 require_once 'inc/Options.php';
 require_once 'inc/Admin.php';

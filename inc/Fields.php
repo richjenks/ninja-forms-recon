@@ -23,12 +23,23 @@ class Fields extends Options {
 	private $data;
 
 	/**
+	 * @var int ID of current submission
+	 */
+
+	private $sub_id;
+
+	/**
 	 * __construct
 	 *
 	 * Add Actions so intensive tasks only run when required
 	 */
 
 	public function __construct() {
+
+		// If referer not set, set it (for original referer)
+		session_start();
+		if ( !isset( $_SESSION['original_referer'] ) && isset( $_SERVER['HTTP_REFERER'] ) )
+			$_SESSION['original_referer'] = $_SERVER['HTTP_REFERER'];
 
 		// Add fields to form
 		add_action( 'ninja_forms_display_pre_init', function () {
@@ -43,7 +54,14 @@ class Fields extends Options {
 
 		// When form submitted, add recon data
 		add_action( 'ninja_forms_post_process', function () {
+
+			// Get submission ID
+			global $ninja_forms_processing;
+			$this->sub_id = $ninja_forms_processing->get_form_setting( 'sub_id' );
+
+			// Pull data out of post and store it as meta data
 			$this->add_recon_data( $_POST );
+
 		}, 11 );
 
 	}
@@ -59,6 +77,7 @@ class Fields extends Options {
 
 	private function construct_fields( $options ) {
 
+		global $ninja_forms_loading;
 		$fields = array();
 
 		// Check if field is enabled
@@ -67,45 +86,11 @@ class Fields extends Options {
 				if ( $enabled ) {
 
 					// Field is enabled, so construct field name
-					$name = 'Recon[' . $category . '][' . $option . ']';
+					$name = Helper::field_name( array( $category, $option ), $this->pretty_prefix );
 
-					// Find value for field
-					switch ( $name ) {
-
-						// Content
-						case 'Recon[Content][Current URL]':
-							$s = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ) ? 's' : '';
-							$url = 'http' . $s . '://';
-							$url .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
-							$fields[ $name ] = $url;
-							break;
-
-						// Google Campaign
-						case 'Recon[Google Campaign][utm_source]':
-							if ( isset( $_GET['utm_source'] ) )  $fields[ $name ] = $_GET['utm_source'];
-							break;
-						case 'Recon[Google Campaign][utm_medium]':
-							if ( isset( $_GET['utm_medium'] ) )  $fields[ $name ] = $_GET['utm_medium'];
-							break;
-						case 'Recon[Google Campaign][utm_term]':
-							if ( isset( $_GET['utm_term'] )  )   $fields[ $name ] = $_GET['utm_term'];
-							break;
-						case 'Recon[Google Campaign][utm_content]':
-							if ( isset( $_GET['utm_content'] ) ) $fields[ $name ] = $_GET['utm_content'];
-							break;
-						case 'Recon[Google Campaign][utm_name]':
-							if ( isset( $_GET['utm_name'] )  )   $fields[ $name ] = $_GET['utm_name'];
-							break;
-
-						// User
-						case 'Recon[User][User Agent]':
-							if ( isset( $_SERVER['HTTP_USER_AGENT'] ) ); $fields[ $name ] = $_SERVER['HTTP_USER_AGENT'];
-							break;
-						case 'Recon[User][IP Address]':
-							if ( isset( $_SERVER['REMOTE_ADDR'] ) ); $fields[ $name ] = $_SERVER['REMOTE_ADDR'];
-							break;
-
-					}
+					// Get value for field
+					$value = Value::get( $option, $this->prefix );
+					if ( !empty( $value ) ) $fields[ $name ] = $value;
 
 				}
 			}
@@ -126,7 +111,7 @@ class Fields extends Options {
 	private function add_fields( $fields ) {
 		foreach ( $fields as $name => $value ) {
 			add_action( 'ninja_forms_display_before_fields', function () use ( $name, $value ) {
-				echo '<input type="hidden" name="' . htmlentities( $name ) . '" value="' . htmlentities( $value ) . '">';
+				echo '<input type="text" name="' . htmlentities( $name ) . '" value="' . htmlentities( $value ) . '">';
 			} );
 		}
 	}
@@ -140,11 +125,24 @@ class Fields extends Options {
 	 */
 
 	private function add_recon_data( $post ) {
-		if ( isset( $post['Recon'] ) )  {
-			global $ninja_forms_processing;
-			$sub_id = $ninja_forms_processing->get_form_setting( 'sub_id' );
-			Ninja_Forms()->sub( $sub_id )->update_meta( $this->pretty_prefix . 'data', json_encode( $post['Recon'] ) );
+
+		$fields = array();
+		$length = strlen( $this->pretty_prefix );
+
+		// Extract recon fields
+		foreach ( $post as $key => $value ) {
+			if ( substr( $key, 0, $length ) === $this->pretty_prefix ) {
+				$fields[ $key ] = $value;
+			}
 		}
+
+		// Convert to multi-array
+		$fields = Helper::names_to_array( $fields );
+
+		// Only push metas if they actually exist
+		if ( !empty( $fields ) )
+			Ninja_Forms()->sub( $this->sub_id )->update_meta( $this->pretty_prefix . 'data', json_encode( $fields['recon'] ) );
+
 	}
 
 }

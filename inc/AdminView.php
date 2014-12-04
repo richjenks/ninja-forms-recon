@@ -53,7 +53,8 @@ if ( !isset( $_GET['tab'] ) || !array_key_exists( $_GET['tab'], $data ) )
 						</label>
 					</th>
 					<td>
-						<input type="text" value="Recon[<?= $_GET['tab']; ?>][<?= $field; ?>]" readonly>
+						<!-- <code><?= $this->pretty_prefix . str_replace( ' ', '-', $_GET['tab']); ?>_<?= str_replace( ' ', '-', $field ); ?></code> -->
+						<code><?= Helper::field_name( array( $_GET['tab'], $field ), $this->pretty_prefix ); ?></code>
 					</td>
 				</tr>
 			<?php endforeach; ?>

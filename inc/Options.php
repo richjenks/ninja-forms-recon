@@ -38,16 +38,19 @@ class Options extends Plugin {
 			'Content' => array(
 				'Current URL'  => false,
 				'Previous URL' => false,
+				'Refering URL' => false,
 				'Post Title'   => false,
-				'Form Name'    => false,
+				'Post ID'      => false,
+				'Form Title'   => false,
+				'Form ID'      => false,
 			),
 
 			'User' => array(
 				'User Agent'       => false,
 				'IP Address'       => false,
-				'Operating System' => false,
-				'Browser'          => false,
-				'Browser Version'  => false,
+				'Operating System' => false, // Todo
+				'Browser'          => false, // Todo
+				'Browser Version'  => false, // Todo
 			),
 
 			'Google Campaign' => array(
