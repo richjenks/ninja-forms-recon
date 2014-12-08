@@ -22,6 +22,9 @@ class Value {
 	 */
 
 	public static function get( $var, $prefix ) {
+
+		global $ninja_forms_loading;
+
 		switch ( $var ) {
 
 			// Content
@@ -49,8 +52,29 @@ class Value {
 			case 'Form ID':
 				return $ninja_forms_loading->data['form_ID'];
 				break;
+			case 'Date + Time':
+				return date( 'r' );
+				break;
+			case 'Timestamp':
+				return time();
+				break;
 
 			// User
+			case 'User ID':
+				return $ninja_forms_loading->data['user_ID'];
+				break;
+			case 'User Name':
+				$user = get_userdata( $ninja_forms_loading->data['user_ID'] );
+				return $user->data->user_nicename;
+				break;
+			case 'User Email':
+				$user = get_userdata( $ninja_forms_loading->data['user_ID'] );
+				return $user->data->user_email;
+				break;
+			case 'User Role':
+				$user = get_userdata( $ninja_forms_loading->data['user_ID'] );
+				return $user->roles[0];
+				break;
 			case 'User Agent':
 				if ( isset( $_SERVER['HTTP_USER_AGENT'] ) ); return $_SERVER['HTTP_USER_AGENT'];
 				break;
@@ -58,13 +82,10 @@ class Value {
 				if ( isset( $_SERVER['REMOTE_ADDR'] ) ); return $_SERVER['REMOTE_ADDR'];
 				break;
 			case 'Operating System':
-				return 'Linux';
+				return self::user_agent( 'platform_name', $prefix );
 				break;
 			case 'Browser':
-				return 'Chrome';
-				break;
-			case 'Browser Version':
-				return '39';
+				return self::user_agent( 'browser_name', $prefix ) . ' ' . self::user_agent( 'browser_version', $prefix );
 				break;
 
 			// Google Campaign
@@ -145,6 +166,33 @@ class Value {
 
 		// Return either all data or specific item
 		return ( $var ) ? $_SESSION[ $prefix . 'geolocation' ][ $var ] : $_SESSION[ $prefix . 'geolocation' ];
+
+	}
+
+	/**
+	 * user_agent
+	 *
+	 * @param string $var    Info to get
+	 * @param string $prefix Plugin "namespace" prefix
+	 *
+	 * @return string|array Specific or all user agent info
+	 */
+
+	public static function user_agent( $var = false, $prefix = '' ) {
+
+		// If ua data not known, get it
+		if ( !isset( $_SESSION[ $prefix . 'user_agent' ] ) ) {
+			$api_key = '5874e73c';
+			$user_agent = urlencode( $_SERVER['HTTP_USER_AGENT'] );
+			$json = @file_get_contents( "http://useragentapi.com/api/v2/json/$api_key/$user_agent" );
+			$_SESSION[ $prefix . 'user_agent' ] = json_decode( $json, true );
+		}
+
+		// Handle API failing
+		if ( !is_array( $_SESSION[ $prefix . 'user_agent' ] ) ) return false;
+
+		// Return either all data or specific item
+		return ( $var ) ? $_SESSION[ $prefix . 'user_agent' ][ $var ] : $_SESSION[ $prefix . 'user_agent' ];
 
 	}
 

@@ -77,7 +77,6 @@ class Fields extends Options {
 
 	private function construct_fields( $options ) {
 
-		global $ninja_forms_loading;
 		$fields = array();
 
 		// Check if field is enabled
@@ -111,7 +110,7 @@ class Fields extends Options {
 	private function add_fields( $fields ) {
 		foreach ( $fields as $name => $value ) {
 			add_action( 'ninja_forms_display_before_fields', function () use ( $name, $value ) {
-				echo '<input type="text" name="' . htmlentities( $name ) . '" value="' . htmlentities( $value ) . '">';
+				echo '<input type="hidden" name="' . htmlentities( $name ) . '" value="' . htmlentities( $value ) . '">';
 			} );
 		}
 	}

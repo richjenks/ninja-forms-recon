@@ -43,14 +43,19 @@ class Options extends Plugin {
 				'Post ID'      => false,
 				'Form Title'   => false,
 				'Form ID'      => false,
+				'Date + Time'  => false,
+				'Timestamp'    => false,
 			),
 
 			'User' => array(
+				'User ID'          => false,
+				'User Name'        => false,
+				'User Email'       => false,
+				'User Role'        => false,
 				'User Agent'       => false,
 				'IP Address'       => false,
-				'Operating System' => false, // Todo
-				'Browser'          => false, // Todo
-				'Browser Version'  => false, // Todo
+				'Operating System' => false,
+				'Browser'          => false,
 			),
 
 			'Google Campaign' => array(
