@@ -139,8 +139,19 @@ class Fields extends Options {
 		$fields = Helper::names_to_array( $fields );
 
 		// Only push metas if they actually exist
-		if ( !empty( $fields ) )
-			Ninja_Forms()->sub( $this->sub_id )->update_meta( $this->pretty_prefix . 'data', json_encode( $fields['recon'] ) );
+		if ( !empty( $fields ) ) {
+
+			// Move to flat vars to feed into closure
+			$sub = $this->sub_id;
+			$meta = $this->pretty_prefix . 'data';
+			$value = json_encode( $fields['recon'] );
+
+			// Delay until `wp_loaded` so `Ninja_Forms()` definitely exists
+			add_action( 'wp_loaded', function () use ( $sub, $meta, $value ) {
+				Ninja_Forms()->sub( $sub )->update_meta( $meta, $value );
+			}, 5 );
+
+		}
 
 	}
 
