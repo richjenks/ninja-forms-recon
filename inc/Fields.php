@@ -148,7 +148,7 @@ class Fields extends Options {
 
 			// Delay until `wp_loaded` so `Ninja_Forms()` definitely exists
 			add_action( 'wp_loaded', function () use ( $sub, $meta, $value ) {
-				Ninja_Forms()->sub( $sub )->update_meta( $meta, $value );
+				\Ninja_Forms()->sub( $sub )->update_meta( $meta, $value );
 			}, 5 );
 
 		}
