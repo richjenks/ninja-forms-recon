@@ -146,8 +146,13 @@ class Fields extends Options {
 			$meta = $this->pretty_prefix . 'data';
 			$value = json_encode( $fields['recon'] );
 
-			// Delay until `wp` so `Ninja_Forms()` definitely exists
-			add_action( 'wp', function () use ( $sub, $meta, $value ) {
+			/**
+			 * Delay until `shutdown` so `Ninja_Forms()` definitely exists
+			 *
+			 * Tried `init`, `wp_loaded` and `wp` but still through error
+			 * so went with thermonuclear solution
+			 */
+			add_action( 'shutdown', function () use ( $sub, $meta, $value ) {
 				Ninja_Forms()->sub( $sub )->update_meta( $meta, $value );
 			}, 11 );
 
