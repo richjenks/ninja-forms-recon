@@ -3,7 +3,7 @@
 /**
  * Fields
  *
- * Adds fields to forms
+ * Adds fields to forms and saves data to submissions
  */
 
 namespace RichJenks\NFRecon;
@@ -146,10 +146,10 @@ class Fields extends Options {
 			$meta = $this->pretty_prefix . 'data';
 			$value = json_encode( $fields['recon'] );
 
-			// Delay until `wp_loaded` so `Ninja_Forms()` definitely exists
-			add_action( 'wp_loaded', function () use ( $sub, $meta, $value ) {
-				\Ninja_Forms()->sub( $sub )->update_meta( $meta, $value );
-			}, 5 );
+			// Delay until `wp` so `Ninja_Forms()` definitely exists
+			add_action( 'wp', function () use ( $sub, $meta, $value ) {
+				Ninja_Forms()->sub( $sub )->update_meta( $meta, $value );
+			}, 11 );
 
 		}
 
