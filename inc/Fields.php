@@ -153,7 +153,7 @@ class Fields extends Options {
 			 * so went with thermonuclear solution
 			 */
 			add_action( 'shutdown', function () use ( $sub, $meta, $value ) {
-				Ninja_Forms()->sub( $sub )->update_meta( $meta, $value );
+				\Ninja_Forms()->sub( $sub )->update_meta( $meta, $value );
 			}, 11 );
 
 		}
