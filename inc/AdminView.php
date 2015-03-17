@@ -39,6 +39,10 @@ if ( !isset( $_GET['tab'] ) || !array_key_exists( $_GET['tab'], $data ) )
 		<?php endforeach ?>
 	</h2>
 
+	<?php if ( $_GET['tab'] === 'Google Campaign' ): ?>
+		<p>Also supports a format usable in AdWords by moving the underscore to the start, e.g. <code>_utmsource</code>.</p>
+	<?php endif; ?>
+
 	<form method="post">
 
 		<?php // Options table ?>
@@ -53,7 +57,6 @@ if ( !isset( $_GET['tab'] ) || !array_key_exists( $_GET['tab'], $data ) )
 						</label>
 					</th>
 					<td>
-						<!-- <code><?= $this->pretty_prefix . str_replace( ' ', '-', $_GET['tab']); ?>_<?= str_replace( ' ', '-', $field ); ?></code> -->
 						<code><?= Helper::field_name( array( $_GET['tab'], $field ), $this->pretty_prefix ); ?></code>
 					</td>
 				</tr>

@@ -91,18 +91,23 @@ class Value {
 			// Google Campaign
 			case 'utm_source':
 				if ( isset( $_GET['utm_source'] ) )  return $_GET['utm_source'];
+				if ( isset( $_GET['_utmsource'] ) )  return $_GET['_utmsource'];
 				break;
 			case 'utm_medium':
 				if ( isset( $_GET['utm_medium'] ) )  return $_GET['utm_medium'];
+				if ( isset( $_GET['_utmmedium'] ) )  return $_GET['_utmmedium'];
 				break;
 			case 'utm_term':
 				if ( isset( $_GET['utm_term'] )  )   return $_GET['utm_term'];
+				if ( isset( $_GET['_utmterm'] )  )   return $_GET['_utmterm'];
 				break;
 			case 'utm_content':
 				if ( isset( $_GET['utm_content'] ) ) return $_GET['utm_content'];
+				if ( isset( $_GET['_utmcontent'] ) ) return $_GET['_utmcontent'];
 				break;
 			case 'utm_name':
 				if ( isset( $_GET['utm_name'] )  )   return $_GET['utm_name'];
+				if ( isset( $_GET['_utmname'] )  )   return $_GET['_utmname'];
 				break;
 
 			// Geolocation
