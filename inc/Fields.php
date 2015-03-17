@@ -154,7 +154,7 @@ class Fields extends Options {
 			 */
 			add_action( 'shutdown', function () use ( $sub, $meta, $value ) {
 				\Ninja_Forms()->sub( $sub )->update_meta( $meta, $value );
-			}, 11 );
+			}, 1100 );
 
 		}
 
